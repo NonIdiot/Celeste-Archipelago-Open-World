@@ -280,7 +280,7 @@ namespace Celeste.Mod.Celeste_Multiworld.General
             }
             else
             {
-                self.Speed.X /= 1.2f;
+                self.Speed.X = 64f * ((int)self.Facing);
                 self.Jump();
             }
         }
