@@ -372,6 +372,8 @@ namespace Celeste.Mod.Celeste_Multiworld
             Celeste_MultiworldModule.SaveData.Cranberries = 0;
             Celeste_MultiworldModule.SaveData.GoldenRaspberries = 0;
 
+            Celeste_MultiworldModule.SaveData.ItemRcv = 0;
+
             if (!attemptReconnect)
             {
                 this.WasConnected = false;
