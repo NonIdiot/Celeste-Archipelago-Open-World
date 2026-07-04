@@ -499,7 +499,7 @@ namespace Celeste.Mod.Celeste_Multiworld.General
             }
         }
 
-        private static bool CanDash(Vector2 dir)
+        public static bool CanDash(Vector2 dir)
         {
             if (dir.Y < 0.0f)
             {

@@ -56,7 +56,7 @@ namespace Celeste.Mod.Celeste_Multiworld.Items
 
         private static bool modPlayer_DreamDashCheck(On.Celeste.Player.orig_DreamDashCheck orig, Player self, Microsoft.Xna.Framework.Vector2 dir)
         {
-            if (HaveReceived())
+            if (HaveReceived() && Celeste_Multiworld.General.modPlayer.CanDash(self.DashDir))
             {
                 return orig(self, dir);
             }
