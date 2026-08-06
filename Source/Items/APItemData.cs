@@ -435,7 +435,7 @@ namespace Celeste.Mod.Celeste_Multiworld.Items
                 long level = adjustedId / 0x40;
                 string levelName = LevelNumToName[level];
 
-                interactableName = levelName + " " + baseItemName;
+                interactableName = levelName + " - " + baseItemName;
             }
             else if (splitType == 2)
             {
