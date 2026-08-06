@@ -11,6 +11,7 @@ namespace Celeste.Mod.Celeste_Multiworld.Locations
         public override void Load()
         {
             On.Monocle.Entity.Awake += modEntity_Awake;
+            On.Celeste.Leader.RestoreStrawberries += modLeader_RestoreStrawberries;
             On.Celeste.Strawberry.ctor += modStrawberry_ctor;
             On.Celeste.Strawberry.Added += modStrawberry_Added;
             On.Celeste.Strawberry.OnPlayer += modStrawberry_OnPlayer;
@@ -26,6 +27,7 @@ namespace Celeste.Mod.Celeste_Multiworld.Locations
         public override void Unload()
         {
             On.Monocle.Entity.Awake -= modEntity_Awake;
+            On.Celeste.Leader.RestoreStrawberries -= modLeader_RestoreStrawberries;
             On.Celeste.Strawberry.ctor -= modStrawberry_ctor;
             On.Celeste.Strawberry.Added -= modStrawberry_Added;
             On.Celeste.Strawberry.OnPlayer -= modStrawberry_OnPlayer;
@@ -63,6 +65,35 @@ namespace Celeste.Mod.Celeste_Multiworld.Locations
                         }
                         (self as Strawberry).OnPlayer(player);
                     }
+                }
+            }
+        }
+
+        private static void modLeader_RestoreStrawberries(On.Celeste.Leader.orig_RestoreStrawberries orig, Leader leader)
+        {
+            leader.PastPoints.Clear();
+            for (int i = 0; i < Leader.storedBerries.Count; i++)
+            {
+                Strawberry strawberry = Leader.storedBerries[i];
+
+                if (ArchipelagoManager.Instance.GoldenAmnesty != 1 && strawberry.Golden)
+                {
+                    foreach (Follower follower in leader.Followers)
+                    {
+                        if (follower.Entity is Strawberry && (follower.Entity as Strawberry).Golden && !(follower.Entity as Strawberry).ID.Equals(strawberry.ID))
+                        {
+                            leader.GainFollower(strawberry.Follower);
+                            strawberry.Position = leader.Entity.Position + Leader.storedOffsets[i];
+                            strawberry.RemoveTag(Tags.Global);
+                            break;
+                        }
+                    }
+                }
+                else
+                {
+                    leader.GainFollower(strawberry.Follower);
+                    strawberry.Position = leader.Entity.Position + Leader.storedOffsets[i];
+                    strawberry.RemoveTag(Tags.Global);
                 }
             }
         }
