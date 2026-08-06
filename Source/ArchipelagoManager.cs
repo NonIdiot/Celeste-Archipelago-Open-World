@@ -431,22 +431,22 @@ namespace Celeste.Mod.Celeste_Multiworld
 
         public void SendDeathLinkIfEnabled(string cause)
         {
-            // Do not send any DeathLink messages if it's not enabled.
-            if (!DeathLink)
-            {
-                return;
-            }
-
-            DeathsCounted = DeathsCounted + 1;
-            if (DeathsCounted < DeathLinkAmnesty)
-            {
-                return;
-            }
-
-            DeathsCounted = 0;
-
             try
             {
+                // Do not send any DeathLink messages if it's not enabled.
+                if (!DeathLink)
+                {
+                    return;
+                }
+
+                DeathsCounted = DeathsCounted + 1;
+                if (DeathsCounted < DeathLinkAmnesty)
+                {
+                    return;
+                }
+
+                DeathsCounted = 0;
+
                 // Log our current time so we can make sure we ignore our own DeathLink.
                 _lastDeath = DateTime.UtcNow;
                 cause = $"{_session.Players.GetPlayerAlias(Slot)} {cause}.";
