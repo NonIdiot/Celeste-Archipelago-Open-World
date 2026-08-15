@@ -696,6 +696,11 @@ namespace Celeste.Mod.Celeste_Multiworld.Items.Traps
                 }
                 case TrapType.Screen_Flip:
                 {
+                    if (level.InCredits)
+                    {
+                        return false;
+                    }
+
                     break;
                 }
                 case TrapType.Laughter:
