@@ -112,18 +112,17 @@ namespace Celeste.Mod.Celeste_Multiworld.General
 
         private static PlayerDeadBody modPlayer_Die(On.Celeste.Player.orig_Die orig, Player self, Microsoft.Xna.Framework.Vector2 direction, bool evenIfInvincible, bool registerDeathInStats)
         {
-            Follower goldenStrawb = null;
+            List<Follower> goldenStrawbs = new List<Follower>();
             if (ArchipelagoManager.Instance.GoldenAmnesty != 1 && (ArchipelagoManager.Instance.GoldenDeathsCounted + 1 < ArchipelagoManager.Instance.GoldenAmnesty) && !SaveData.Instance.Assists.Invincible)
             {
                 foreach (Follower follower in self.Leader.Followers)
                 {
                     if (follower.Entity is Strawberry && (follower.Entity as Strawberry).Golden && !(follower.Entity as Strawberry).Winged)
                     {
-                        goldenStrawb = follower;
-                        break;
+                        goldenStrawbs.Add(follower);
                     }
                 }
-                if (goldenStrawb != null)
+                foreach (Follower goldenStrawb in goldenStrawbs)
                 {
                     self.Leader.Followers.Remove(goldenStrawb);
                 }
@@ -135,7 +134,7 @@ namespace Celeste.Mod.Celeste_Multiworld.General
             {
                 ArchipelagoManager.Instance.SendDeathLinkIfEnabled("couldn't climb the mountain");
 
-                if (goldenStrawb != null)
+                if (goldenStrawbs.Count > 0)
                 {
                     ArchipelagoManager.Instance.GoldenDeathsCounted++;
                     if (ArchipelagoManager.Instance.GoldenDeathsCounted >= ArchipelagoManager.Instance.GoldenAmnesty)
